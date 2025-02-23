@@ -1,0 +1,23 @@
+{
+  "name": "rss-to-blue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "dependencies": {
+    "@atproto/api": "^0.14.4",
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "multiformats": "^13.3.2",
+    "rss-parser": "^3.13.0",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^22.13.5",
+    "@types/xml2js": "^0.4.14"
+  }
+}
