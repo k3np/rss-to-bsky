@@ -58,7 +58,7 @@ export class RssItem {
 
     addMetadata(feed: CustomRSSFeed) {
         this.languages.add(feed.language ?? '');
-        this.languages.add(feed.title ?? '');
+        this.feedTitles.add(feed.title ?? '');
         this.addCategories(feed.title?.split(/[^a-zA-ZæøåÆØÅ0-9]/) ?? []);
     }
 
