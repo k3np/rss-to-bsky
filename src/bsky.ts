@@ -63,8 +63,8 @@ export async function uploadImage(imageUrl: URL): Promise<BlobRef | null> {
  */
 export async function post(rssItem: RssItem): Promise<void> {
     try {
-        // RichText for plain text body of the post
-        const richText = new RichText({text: rssItem.title});
+        const title = [...rssItem.feedTitles].join(', ') || rssItem.title;
+        const richText = new RichText({text: title});
         await richText.detectFacets(agent);
 
         // Construct the external embed

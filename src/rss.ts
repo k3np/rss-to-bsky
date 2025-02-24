@@ -30,6 +30,7 @@ export class RssItem {
     content: string;
     mediaUrl: URL | undefined;
     languages: Set<string>;
+    feedTitles: Set<string>;
     categories: Set<string>;
 
     constructor(guid: string, title: string, link: URL | undefined, pubDate: Date | undefined, content: string, mediaUrl: URL | undefined) {
@@ -40,6 +41,7 @@ export class RssItem {
         this.content = content;
         this.mediaUrl = mediaUrl;
         this.languages = new Set();
+        this.feedTitles = new Set();
         this.categories = new Set();
     }
 
@@ -56,6 +58,7 @@ export class RssItem {
 
     addMetadata(feed: CustomRSSFeed) {
         this.languages.add(feed.language ?? '');
+        this.languages.add(feed.title ?? '');
         this.addCategories(feed.title?.split(/[^a-zA-ZæøåÆØÅ0-9]/) ?? []);
     }
 
@@ -81,6 +84,7 @@ export class RssItem {
             content: '${this.content}',
             mediaUrl: '${this.mediaUrl?.toString() ?? 'undefined'}',
             languages: [${[...this.languages].join(', ')}],
+            feedTitles: [${[...this.feedTitles].join(', ')}]
             categories: [${[...this.categories].join(', ')}]
         }`;
     }
