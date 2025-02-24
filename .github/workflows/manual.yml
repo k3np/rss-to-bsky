@@ -1,14 +1,12 @@
-name: rss-to-bsky
+name: Manual Publish to BSky
 
 on:
-  schedule:
-    - cron: '15 * * * *'
   workflow_dispatch:
     inputs:
       dryRun:
         description: 'Dry Run without posting'
         required: true
-        default: 'false'
+        default: 'true'
       lookBackPeriod:
         description: 'Number of hours to look back'
         required: true

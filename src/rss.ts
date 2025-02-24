@@ -1,4 +1,5 @@
 import Parser, {Item, Output} from 'rss-parser';
+import {args} from "./args";
 
 export interface CustomRSSItem extends Item {
     'media:content'?: {
@@ -114,12 +115,13 @@ const isDefined = <T>(value: T | undefined | null): value is T => {
 export const verifyPubDate = (startTime: Date, endTime: Date): (rssItem: RssItem) => boolean => {
     return (rssItem: RssItem) => {
         if (!isDefined(rssItem.pubDate)) {
-            console.warn(`Undefined PubDate: '${rssItem.title}'`);
+            args.verbose && console.log(`Undefined PubDate: '${rssItem.title}'`);
             return false;
         } else if (rssItem.pubDate <= startTime) {
-            console.debug(`[${rssItem.pubDate.toISOString()}] Too old PubDate: ${rssItem.title}`);return false;
+            args.verbose && console.log(`[${rssItem.pubDate.toISOString()}] Too old PubDate: ${rssItem.title}`);
+            return false;
         } else if (rssItem.pubDate > endTime) {
-            console.debug(`[${rssItem.pubDate.toISOString()}] Too new PubDate: ${rssItem.title}`);
+            args.verbose && console.log(`[${rssItem.pubDate.toISOString()}] Too new PubDate: ${rssItem.title}`);
             return false;
         }
         return true;
@@ -139,7 +141,7 @@ export function sortByPubDate() {
  */
 export const isValidItem = (item: CustomRSSItem): boolean => {
     if (!item.guid || !item.title || !item.link) {
-        console.warn(`Invalid item: ${JSON.stringify(item, null, 2)}`);
+        args.verbose && console.log(`Invalid item: ${JSON.stringify(item, null, 2)}`);
         return false;
     }
     return true;
