@@ -1,6 +1,7 @@
 import {AtpAgent, RichText} from '@atproto/api';
 import {RssItem} from "./rss";
 import {BlobRef} from "@atproto/lexicon";
+import {args} from "./args";
 
 // Setup BlueSky Agent
 const agent = new AtpAgent({
@@ -19,9 +20,9 @@ export async function initialize(): Promise<void> {
     }
     try {
         await agent.login({identifier: username, password});
-        console.info('Authenticated successfully to BlueSky');
+        console.info('Authenticated successfully to BSky');
     } catch (error) {
-        console.error('Failed to authenticate with BlueSky:', error);
+        console.error('Failed to authenticate with BSky:', error);
         throw error;
     }
 }
@@ -33,7 +34,7 @@ export async function initialize(): Promise<void> {
  */
 export async function uploadImage(imageUrl: URL): Promise<BlobRef | null> {
     try {
-        console.info(`Uploading image from URL: ${imageUrl.toString()}`);
+        args.verbose && console.log(`Uploading image from URL: ${imageUrl.toString()}`);
         const response = await fetch(imageUrl);
         if (!response.ok) {
             console.error(`Failed to fetch image: ${response.statusText}`);
@@ -47,11 +48,11 @@ export async function uploadImage(imageUrl: URL): Promise<BlobRef | null> {
         const blob = await response.blob();
 
         const uploadResponse = await agent.uploadBlob(blob, {encoding: contentType}); // Adjust encoding based on image type
-        console.info('Image uploaded successfully, blob reference:', uploadResponse.data.blob);
+        args.verbose && console.log('Image uploaded successfully, blob reference:', uploadResponse.data.blob);
 
-        return uploadResponse.data.blob; // Return blob reference
+        return uploadResponse.data.blob;
     } catch (error) {
-        console.error('Error uploading image to Bluesky:', error);
+        console.error('Error uploading image to BSky:', error);
         return null;
     }
 }
@@ -96,8 +97,8 @@ export async function post(rssItem: RssItem): Promise<void> {
             tags: Array.from(rssItem.categories)
         });
 
-        console.info('Successfully posted to BlueSky:', response.uri);
+        console.info('Successfully posted to BSky:', response.uri);
     } catch (error) {
-        console.error('Error posting to BlueSky:', error);
+        console.error('Error posting to BSky:', error);
     }
 }

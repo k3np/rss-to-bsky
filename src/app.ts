@@ -7,12 +7,13 @@ dotenv.config();
 
 (async () => {
     const urls = process.env.FEED_URLS;
-    console.log("Urls: " + urls);
+    args.verbose && console.log("Urls: " + urls);
     const feedUrls: string[] = urls?.split(',') || [];
     const items = new Map<string, rss.RssItem>();
+    console.log(`Finding feed items with publication date between: ${args.startTime}-${args.endTime}`);
     for (const feedUrl of feedUrls) {
         const feed = await rss.parser.parseURL(feedUrl) as rss.Output<rss.CustomRSSItem>;
-        console.info(`Title: ${feed.title}`);
+        args.verbose && console.log(`Title: ${feed.title}`);
         feed.items
             .filter(rss.isValidItem)
             .map(rss.mapItem)
@@ -27,13 +28,14 @@ dotenv.config();
     if (!args.dryRun) {
         await bsky.initialize();
     }
+    console.log(`[${args.dryRun ? 'DRY RUN' : 'LIVE'}] Posting items: ${items.size}`)
     for (const item of [...items.values()].sort(rss.sortByPubDate())) {
         if (args.dryRun)
         {
-            console.info(`[DRY RUN] Posting item: ${item}`);
+            args.verbose && console.log(`[DRY RUN] Posting item: ${item}`);
         }
         else {
-            console.info(`[LIVE] Posting item: ${item}`);
+            args.verbose && console.log(`[LIVE] Posting item: ${item}`);
             await bsky.post(item);
             await new Promise(resolve => setTimeout(resolve, 2000));
         }
