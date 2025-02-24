@@ -5,6 +5,10 @@ on:
     - cron: '* 5-23 * * *'
   workflow_dispatch:
     inputs:
+      dryRun:
+        description: 'Dry Run without posting'
+        required: false
+        default: 'true'
       lookBackPeriod:
         description: 'Number of hours to look back'
         required: false

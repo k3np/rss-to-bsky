@@ -36,7 +36,7 @@ const getEndTime = (runTimeParam?: string): Date => {
 const program = new Command();
 
 program
-    .option('-d, --dryRun <boolean>', 'Dry Run without posting ', 'true')
+    .option('-d, --dryRun <boolean>', 'Dry Run without posting', 'true')
     .option('-l, --lookBackPeriod <number>', 'The number of hours to look back', '1') // Default: 1 hour
     .option('-t, --currentTime <string>', 'The current time (ISO string)');
 // Parse process arguments
