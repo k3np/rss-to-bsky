@@ -2,16 +2,16 @@ name: rss-to-bsky
 
 on:
   schedule:
-    - cron: '* 5-23 * * *'
+    - cron: '5 * * * *'
   workflow_dispatch:
     inputs:
       dryRun:
         description: 'Dry Run without posting'
-        required: false
-        default: 'true'
+        required: true
+        default: 'false'
       lookBackPeriod:
         description: 'Number of hours to look back'
-        required: false
+        required: true
         default: '1'
       currentTime:
         description: 'The current runtime ISO string'
